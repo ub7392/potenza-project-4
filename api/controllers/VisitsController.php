@@ -76,12 +76,13 @@ class api_VisitsController extends Ia_Controller_Action_Abstract
           // 500 - Server Error
           $data = $this->getRequest()->getPost();
 
-          $visits = new api\Entity\Visits();
+          $visits = new API\Entity\visits();
           $visits ->setPersonid($data['peoplevisit'])
                   ->setStateid($data['states'])
                   ->setDatevisited($data['date_visited']);
-          $map = new API\Entity\Visits();
-          $map->save($visits);
+          $em = $this->getEntityManager();
+          $em->persist($visits);
+          $em->flush();
 
           header('Content-type: application/json');
           echo json_encode(http_response_code(200));

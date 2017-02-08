@@ -69,7 +69,7 @@ class Visits
         return $this->person_id;
     }
 
-    public function setFirstname($person_id)
+    public function setPersonid($person_id)
     {
         $this->person_id = $person_id;
     }

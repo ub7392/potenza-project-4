@@ -72,37 +72,6 @@ function info(){
 
     $("#peopleInfo").empty();
     $("#visitInfo").empty();
-/*
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: "api/visits/" + person_id,
-      success: function(data){
-        var first_name = data[0]["first_name"];
-        var last_name = data[0]["last_name"];
-        var favorite_food = data[0]["favorite_food"];
-
-        $("#peopleInfo").append("<p></p><p>Name: " +first_name+ " " +last_name+ "</p><p>Favorite Food: " +favorite_food+ "</p><p>State(s) Visited: </p>");
-
-        var len = data.length;
-
-        for(var i = 0; i < len; i++){
-          var states_name = data[i]["states_name"];
-          var states_abbreviation = data[i]["states_abbreviation"];
-          var date_visited = data[i]["date_visited"];
-
-          if(jQuery.isEmptyObject(states_name)){
-            $("#visitInfo").append("No visits were recorded");
-          }else{
-            $("#visitInfo").append(" "+states_name+" - "+states_abbreviation+" on " +date_visited+ "</p>");
-          }
-        }
-      },
-      error: function(data){
-        console.log(data);
-      }
-    });
-    */
 
     $.ajax({
       type: "GET",
@@ -114,7 +83,7 @@ function info(){
         var favorite_food = data[0]["favorite_food"];
 
         $("#peopleInfo").append("<p></p><p>Name: " +first_name+ " " +last_name+ "</p><p>Favorite Food: " +favorite_food+ "</p><p>State(s) Visited: </p>");
-      },
+      }},
       error: function(data){
         console.log(data);
       }
