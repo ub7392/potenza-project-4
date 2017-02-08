@@ -22,12 +22,14 @@ class Visits
      * @ORM\Column(type="integer", nullable=true)
      * @var int
      * @ORM\ManyToOne(targetEntity="People", inversedBy="people_id")
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="people_id")
      */
     private $person_id;
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @var int
-     * @ORM\anyToOne(targetEntity="States", inversedBy="states_id")
+     * @ORM\ManyToOne(targetEntity="States", inversedBy="states_id")
+     * @ORM\JoinColumn(name="state_id", referencedColumnName="states_id")
      */
     private $state_id;
     /**
@@ -55,12 +57,6 @@ class Visits
     public function __get($property)
     {
         return $this->$property;
-    }
-
-    public function setId($id)
-    {
-        $this->id = (int)$id;
-        return $this;
     }
 
     public function getId()

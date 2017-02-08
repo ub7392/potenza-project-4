@@ -3,15 +3,13 @@
 <html lang="en">
 <body>
 <title>Project 4</title>
-<!-- Latest compiled and minified CSS -->
-<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-<meta content="utf-8" http-equiv="encoding">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+
+<script type="text/javascript" src="api/js/main.js"></script>
 
 <!-- navigation bar -->
 <nav class="navbar navbar-default">
@@ -22,15 +20,15 @@
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-left">
+      <ul class="nav navbar-nav">
         <!-- About the website button -->
         <button type="button" class = "btn btn-default navbar-btn" class = "button button1" data-toggle = "modal" data-target="#aboutmodal">About</button>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav">
         <!-- Add person button -->
         <button type="button" class = "btn btn-default navbar-btn" data-toggle = "modal" data-target="#personmodal">Add a Person</button>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav">
         <!-- Add visit button -->
         <button type="button" class = "btn btn-default navbar-btn" data-toggle = "modal" data-target = "#visitmodal"> Add a Visit</button>
       </ul>
@@ -75,7 +73,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <center>
-        <div class="modal-header">Add A Person</div>
+        <div class="modal-header">Add Person</div>
         <div class="modal-body">
           <form method="post" id="addperson">
             <p>First Name: <input type="text" id = "first_name" name="first_name"></p>
@@ -95,7 +93,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <center>
-        <div class="modal-header">Add A Visit</div>
+        <div class="modal-header">Add Visit</div>
         <div class="modal-body">
           <form method="post" id="addvisit">
             <p>Select Person: <select name="peoplevisit" id = "peoplevisit"></select></p>

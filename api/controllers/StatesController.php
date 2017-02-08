@@ -1,58 +1,73 @@
 <?php
 use Doctrine\ORM;
-use Modules\Entity;
+use API\Entity;
 
-class API_StatesController extends Ia_Controller_Action_Abstract
+class api_StatesController extends Ia_Controller_Action_Abstract
 {
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
+  public function init()
+  {
+      /* Initialize action controller here */
+  }
 
-    public function indexAction()
-    {
-      $states = new API_Model_StatesMapper();
+  public function indexAction()
+  {
+    if($this->getRequest()->isGet()){
+      $data = $this->getRequest()->getParam('states_id');
 
-      try{
-        // 200 - Success
-        // 400 - Bad Request
-        // 500 - Server Error
-        $data = $states->fetchAll();
+      if($data === null)
+      {
+        try{
+          // 200 - Success
+          // 400 - Bad Request
+          // 500 - Server Error
+          $data = $this->getEntityManager()->getRepository('API\Entity\states')->findAll();
 
-        http_response_code(200);
-        header('Content-type: application/json');
-        echo json_encode($data);
-      }catch(\Exception $e){
-        $data = $e->getMessage();
+          foreach($data as $entryObj){
+            $resultArray[] =
+            [
+              'states_id'           => $entryObj->states_id,
+              'states_name'         => $entryObj->states_name,
+              'states_abbreviation' => $entryObj->states_abbreviation,
+            ];
+          }
 
-        http_response_code(500);
-        header('Content-type: application/json');
-        echo json_encode($data);
+          http_response_code(200);
+          header('Content-type: application/json');
+          echo json_encode($resultArray);
+          die();
+        }catch(\Exception $e){
+          $data = $e->getMessage();
+
+          http_response_code(500);
+          header('Content-type: application/json');
+          echo json_encode($data);
+          die();
+        }
+      }else{
+          try{
+          // 200 - Success
+          // 400 - Bad Request
+          // 500 - Server Error
+          $states = $this->getEntityManager()->getRepository('\API\Entity\states')->find($data);
+          $resultArray[] =
+          [
+            'states_id'           => $states->states_id,
+            'states_name'         => $states->states_name,
+            'states_abbreviation' => $states->states_abbreviation,            ];
+
+          http_response_code(200);
+          header('Content-type: application/json');
+          echo json_encode($resultArray);
+          die();
+        }catch(\Exception $e){
+          $data = $e->getMessage();
+
+          http_response_code(500);
+          header('Content-type: application/json');
+          echo json_encode($find);
+          die();
+        }
       }
     }
-
-    public function getAction()
-    {
-      $states = new API_Model_StatesMapper();
-
-      try{
-        // 200 - Success
-        // 400 - Bad Request
-        // 500 - Server Error
-        $data = $this->getRequest()->getParam('states_id');
-        $find = $states->find($data);
-
-        http_response_code(200);
-        header('Content-type: application/json');
-        echo json_encode($find);
-        die();
-      }catch(\Exception $e){
-        $data = $e->getMessage();
-
-        http_response_code(500);
-        header('Content-type: application/json');
-        echo json_encode($find);
-        die();
-      }
-    }
+  }
 }

@@ -6,8 +6,8 @@ namespace API\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityRepository;
 /**
- * @ORM\Entity(repositoryClass= "StatesRepository")
  * @ORM\Table(name="states")
+ * @ORM\Entity(repositoryClass= "StatesRepository")
  **/
 class States
 {
@@ -81,3 +81,4 @@ class States
     {
         $this->states_abbreviation = $states_abbreviation;
     }
+}

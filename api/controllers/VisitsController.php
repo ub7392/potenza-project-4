@@ -2,7 +2,7 @@
 use Doctrine\ORM;
 use API\Entity;
 
-class API_VisitsController extends Ia_Controller_Action_Abstract
+class api_VisitsController extends Ia_Controller_Action_Abstract
 {
     public function init()
     {
@@ -12,23 +12,62 @@ class API_VisitsController extends Ia_Controller_Action_Abstract
     public function indexAction()
     {
       if($this->getRequest()->isGet()){
-        $visits = new API_Model_VisitsMapper();
+        $data = $this->getRequest()->getParam('id');
 
-        try{
-          // 200 - Success
-          // 400 - Bad Request
-          // 500 - Server Error
-          $data = $visits->fetchAll();
+        if($data === null)
+        {
+            try{
+              // 200 - Success
+              // 400 - Bad Request
+              // 500 - Server Error
+              $data = $this->getEntityManager()->getRepository('API\Entity\visits')->findAll();
 
-          http_response_code(200);
-          header('Content-type: application/json');
-          echo json_encode($data);
-        }catch(\Exception $e){
-          $data = $e->getMessage();
+              foreach($data as $entryObj){
+                $resultArray[] = [
+                  'id'           => $entryObj->id,
+                  'person_id'    => $entryObj->person_id,
+                  'state_id'     => $entryObj->state_id,
+                  'date_visited' => $entryObj->date_visited
+                ];
+              }
 
-          http_response_code(500);
-          header('Content-type: application/json');
-          echo json_encode($data);
+              http_response_code(200);
+              header('Content-type: application/json');
+              echo json_encode($resultArray);
+              die();
+            }catch(\Exception $e){
+              $data = $e->getMessage();
+
+              http_response_code(500);
+              header('Content-type: application/json');
+              echo json_encode($data);
+            }
+        }else{
+            try{
+              // 200 - Success
+              // 400 - Bad Request
+              // 500 - Server Error
+              $visits = $this->getEntityManager()->getRepository('\API\Entity\visits')->find($data);
+
+              $resultArray[] = [
+                'id'           => $visits->id,
+                'person_id'    => $visits->person_id,
+                'state_id'     => $visits->state_id,
+                'date_visited' => $visits->date_visited
+              ];
+
+              http_response_code(200);
+              header('Content-type: application/json');
+              echo json_encode($resultArray);
+              die();
+            }catch(\Exception $e){
+              $data = $e->getMessage();
+
+              http_response_code(500);
+              header('Content-type: application/json');
+              echo json_encode($data);
+              die();
+            }
         }
       }else if ($this->getRequest()->isPost()){
         try{
@@ -37,11 +76,11 @@ class API_VisitsController extends Ia_Controller_Action_Abstract
           // 500 - Server Error
           $data = $this->getRequest()->getPost();
 
-          $visits = new API_Model_Visits();
+          $visits = new api\Entity\Visits();
           $visits ->setPersonid($data['peoplevisit'])
                   ->setStateid($data['states'])
                   ->setDatevisited($data['date_visited']);
-          $map = new API_Model_VisitsMapper();
+          $map = new API\Entity\Visits();
           $map->save($visits);
 
           header('Content-type: application/json');
@@ -55,47 +94,6 @@ class API_VisitsController extends Ia_Controller_Action_Abstract
           echo json_encode($data);
           die();
         }
-      }
-    }
-
-    public function getAction()
-    {
-      $visits = new API_Model_VisitsMapper();
-
-      try{
-        // 200 - Success
-        // 400 - Bad Request
-        // 500 - Server Error
-        $data = $this->getRequest()->getParam('person_id');
-        $find = $visits->find($data);
-
-        /*$states = new API_Model_StatesMapper();
-        $state = array();
-        $result = $states->fetchAll($find);
-        $entries = array();
-        foreach($result as $row)
-        {
-          $entry = new API_Model_States();
-          $entry->setStatesid($row->states_id)
-                ->setStatesname($row->states_name)
-                ->setStatesabbreviation($row->states_abbreviation);
-          $entries[] = $entry;
-        }
-        //$state = $visits->$states->state_name;
-        echo json_encode($result);
-        die();*/
-
-        http_response_code(200);
-        header('Content-type: application/json');
-        echo json_encode($find);
-        die();
-      }catch(\Exception $e){
-        $data = $e->getMessage();
-
-        http_response_code(500);
-        header('Content-type: application/json');
-        echo json_encode($data);
-        die();
       }
     }
   }
