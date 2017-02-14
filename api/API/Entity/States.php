@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * @ORM\Table(name="states")
  * @ORM\Entity(repositoryClass= "StatesRepository")
+ * @ORM\HasLifecycleCallbacks
  **/
 class States
 {
@@ -15,7 +16,7 @@ class States
      * @ORM\Id
      * @ORM\Column(type="integer", nullable=false)
      * @ORM\GeneratedValue
-     * @var int
+     * @var integer
      * @ORM\OneToMany(targetEntity="Visits", mappedBy="state_id")
      */
     private $states_id;

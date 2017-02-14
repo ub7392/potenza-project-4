@@ -47,14 +47,16 @@ class api_VisitsController extends Ia_Controller_Action_Abstract
               // 200 - Success
               // 400 - Bad Request
               // 500 - Server Error
-              $visits = $this->getEntityManager()->getRepository('\API\Entity\visits')->find($data);
+              $visits = $this->getEntityManager()->getRepository('\API\Entity\visits')->findBy(array('person_id'=>$data));
 
-              $resultArray[] = [
-                'id'           => $visits->id,
-                'person_id'    => $visits->person_id,
-                'state_id'     => $visits->state_id,
-                'date_visited' => $visits->date_visited
-              ];
+              foreach($visits as $entryObj){
+                $resultArray[] = [
+                  'id'           => $entryObj->id,
+                  'person_id'    => $entryObj->person_id,
+                  'state_id'     => $entryObj->state_id,
+                  'date_visited' => $entryObj->date_visited
+                ];
+              }
 
               http_response_code(200);
               header('Content-type: application/json');
@@ -76,10 +78,11 @@ class api_VisitsController extends Ia_Controller_Action_Abstract
           // 500 - Server Error
           $data = $this->getRequest()->getPost();
 
-          $visits = new API\Entity\visits();
-          $visits ->setPersonid($data['peoplevisit'])
-                  ->setStateid($data['states'])
-                  ->setDatevisited($data['date_visited']);
+          $visits = new API\Entity\Visits();
+          $visits ->setPersonid($data['peoplevisit']);
+          $visits ->setStateid($data['states']);
+          $visits ->setDatevisited($data['date_visited']);
+
           $em = $this->getEntityManager();
           $em->persist($visits);
           $em->flush();

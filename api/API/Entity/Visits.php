@@ -8,26 +8,27 @@ use Doctrine\ORM\EntityRepository;
 /**
  * @ORM\Table(name="visits")
  * @ORM\Entity(repositoryClass= "VisitsRepository")
+ * @ORM\HasLifecycleCallbacks
  **/
 class Visits
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", nullable=false)
-     * @ORM\GeneratedValue
-     * @var int
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @var integer
      */
     private $id;
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @var int
+     * @var integer
      * @ORM\ManyToOne(targetEntity="People", inversedBy="people_id")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="people_id")
+     * @ORM\JoinColumn(name="people_id", referencedColumnName="people_id")
      */
     private $person_id;
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @var int
+     * @var integer
      * @ORM\ManyToOne(targetEntity="States", inversedBy="states_id")
      * @ORM\JoinColumn(name="state_id", referencedColumnName="states_id")
      */
@@ -59,9 +60,21 @@ class Visits
         return $this->$property;
     }
 
+    public function setId($id)
+    {
+        $this->id = (integer)$id;
+        return $this;
+    }
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setPersonid($person_id)
+    {
+        $this->person_id = (integer)$person_id;
+        return $this;
     }
 
     public function getPersonid()
@@ -69,9 +82,10 @@ class Visits
         return $this->person_id;
     }
 
-    public function setPersonid($person_id)
+    public function setStateid($state_id)
     {
-        $this->person_id = $person_id;
+        $this->state_id = (integer)$state_id;
+        return $this;
     }
 
     public function getStateid()
@@ -79,18 +93,14 @@ class Visits
         return $this->state_id;
     }
 
-    public function setStateid($state_id)
+    public function setDatevisited($date_visited)
     {
-        $this->state_id = $state_id;
+        $this->date_visited = (string)$date_visited;
+        return $this;
     }
 
     public function getDatevisited()
     {
         return $this->date_visited;
-    }
-
-    public function setDatevisited($date_visited)
-    {
-        $this->date_visited = $date_visited;
     }
 }

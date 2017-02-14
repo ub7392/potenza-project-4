@@ -8,28 +8,33 @@ use Doctrine\ORM\EntityRepository;
 /**
  * @ORM\Table(name="people")
  * @ORM\Entity(repositoryClass= "PeopleRepository")
+ * @ORM\HasLifecycleCallbacks
  **/
 class People
 {
     /**
-     * @var int
+     *
+     * @var integer
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     * @ORM\OneToMany(targetEntity="Visits", mappedBy="id")
+     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\OneToMany(targetEntity="Visits", mappedBy="person_id")
      */
     protected $people_id;
     /**
+     *
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     protected $first_name;
     /**
+     *
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     protected $last_name;
     /**
+     *
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
@@ -56,9 +61,21 @@ class People
         return $this->$property;
     }
 
+    public function setPeopleid($people_id)
+    {
+      $this->people_id = (integer)$people_id;
+      return $this;
+    }
+
     public function getPeopleid()
     {
         return $this->people_id;
+    }
+
+    public function setFirstname($first_name)
+    {
+        $this->first_name = (string)$first_name;
+        return $this;
     }
 
     public function getFirstname()
@@ -66,9 +83,10 @@ class People
         return $this->first_name;
     }
 
-    public function setFirstname($first_name)
+    public function setLastname($last_name)
     {
-        $this->first_name = $first_name;
+        $this->last_name = (string)$last_name;
+        return $this;
     }
 
     public function getLastname()
@@ -76,18 +94,14 @@ class People
         return $this->last_name;
     }
 
-    public function setLastname($last_name)
+    public function setFavoritefood($favorite_food)
     {
-        $this->last_name = $last_name;
+        $this->favorite_food = (string)$favorite_food;
+        return $this;
     }
 
     public function getFavoritefood()
     {
         return $this->favorite_food;
-    }
-
-    public function setFavoritefood($favorite_food)
-    {
-        $this->favorite_food = $favorite_food;
     }
 }
