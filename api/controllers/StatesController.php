@@ -53,7 +53,8 @@ class api_StatesController extends Ia_Controller_Action_Abstract
           [
             'states_id'           => $states->states_id,
             'states_name'         => $states->states_name,
-            'states_abbreviation' => $states->states_abbreviation,            ];
+            'states_abbreviation' => $states->states_abbreviation,
+          ];
 
           http_response_code(200);
           header('Content-type: application/json');

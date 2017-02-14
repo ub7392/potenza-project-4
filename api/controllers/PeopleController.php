@@ -77,12 +77,12 @@ class api_PeopleController extends Ia_Controller_Action_Abstract
         // 400 - Bad Request
         // 500 - Server Error
 
-        //$data = $this->getRequest()->getPost();
+        $data = $this->getRequest()->getPost();
 
         $people = new API\Entity\People();
-        $people->setFirstname($_POST['first_name']);
-        $people->setLastname($_POST['last_name']);
-        $people->setFavoritefood($_POST['favorite_food']);
+        $people->setFirstname($data['first_name']);
+        $people->setLastname($data['last_name']);
+        $people->setFavoritefood($data['favorite_food']);
 
         $em = $this->getEntityManager();
         $em->persist($people);
